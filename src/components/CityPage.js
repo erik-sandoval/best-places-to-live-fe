@@ -18,6 +18,22 @@ const CityPage = ({ match, likes, history }) => {
   const [imgUrl, setImgUrl] = useState("");
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    const dataViz = () => {
+      axios({
+        method: "post",
+        url: "https://best-places-api.herokuapp.com/visual",
+        data: { input1: factors.map(factor => factor.factor), input2: cityID },
+        responseType: "blob"
+      })
+        .then(res => {
+          setImgUrl(URL.createObjectURL(res.data));
+        })
+        .catch(err => console.log(err));
+    };
+    dataViz();
+  }, [cityID]);
+
   //BE request
   const response = useFetch(`${baseURL}city`, {
     method: "POST",
@@ -108,10 +124,15 @@ const CityPage = ({ match, likes, history }) => {
             </Text>
             <Attribution />
           </Container>
-          <Container height="100%" width="100%">
-            <Text as="h2">City Scores by Factor</Text>
-
-            <PolarAreaChart city={city} />
+           <Container padding="2rem 2rem">
+            {!imgUrl && <LoadingComponent />}
+            <Image
+              maxWidth="550px"
+              width="100%"
+              alt="data-viz"
+              id="blob"
+              src={imgUrl}
+            />
           </Container>
         </Container>
       </Container>

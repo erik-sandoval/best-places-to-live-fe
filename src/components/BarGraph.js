@@ -41,10 +41,10 @@ const BarGraph = ({ data, city1, city2, mobile, history }) => {
     <ResponsiveBar
       data={dataForBarGraph}
       keys={["worst", "average", "best", `${city1.name}`, `${city2.name}`]}
-      indexBy="factor"
+      indexBy='factor'
       margin={{ top: 50, right: 200, bottom: 50, left: 60 }}
       padding={0.3}
-      groupMode="grouped"
+      groupMode='grouped'
       colors={{ scheme: "spectral" }}
       defs={[
         {
